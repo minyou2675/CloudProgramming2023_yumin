@@ -130,3 +130,6 @@ dmypy.json
 
 #pycharm source
 .idea/
+
+#DB migrations
+migrations/
