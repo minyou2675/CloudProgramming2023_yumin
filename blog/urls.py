@@ -2,6 +2,6 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path('', views.index),
-    path('<int:pk>',views.single_post_page)
+    path('', views.PostList.as_view()), #as_view -> generic이 view로 구현하는 메쏘드
+    path('<int:pk>/', views.PostDetail.as_view())
 ]
