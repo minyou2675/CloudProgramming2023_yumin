@@ -1,11 +1,22 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Post,Category, Tag 
 
 
 # Create your views here.
+
+class PostUpdate(LoginRequiredMixin, UpdateView):
+     model = Post
+     fields = ['title','content','head_image','file_upload','category','tag']
+     template_name = 'blog/post_update.html'
+     def dispatch(self, request ,*args,**kwargs):
+         if request.user.is_authenticated and self.get_object().author == request.user: #로그인한 사용자와 글의 author가 일치할 시
+             return super(PostUpdate,self).dispatch(request, *args, **kwargs) #PostUpdate에 정의되어 있는 본래 Dispatch를 그대로 실행
+         else:
+             raise PermissionError
+     
 
 class PostCreate(LoginRequiredMixin,CreateView):
     model = Post #PostCreate에 접근 시 post라는 하나의 인스턴스를 만들겠다.

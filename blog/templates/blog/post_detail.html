@@ -86,8 +86,6 @@
 
           <a href="{{ post.file_upload.url }}" class="btn btn-outline-primary">첨부파일 다운로드</a>
         {{ post.get_file_name }}
-
-       {% endif %}
         <hr>
         {% if post.tag.exists %}
             <i class = "fas fa-tags">
@@ -95,6 +93,9 @@
                 <a href="{{ tag.get_absolute_url }}">{{ tag }} </a>
             {% endfor %}
             </i>
+        {% endif %}
+        {% if user.is_authenticated and user == post.author %}
+        <a href="/blog/update_post/{{ post.pk }}">수정하기</a>
         {% endif %}
 
         <!-- Comments Form -->
