@@ -1,24 +1,29 @@
 {% extends 'blog/base.html' %}
+
+
 {% block main_area %}
-                <h1>Blog</h1>
+     <h1>Blog {% if category %} postings with category {{category}}
+     {% endif %}
+     {% if tag %} postings with tag {{tag}} {% endif %}
+     </h1>
 
                 {% for p in post_list %}
                 <!-- Blog Post -->
                 <div class="card mb-4">
-                {% if p.head_image %}
-                    <img class="card-img-top" src="{{ p.head_image.url }}" alt="Card image cap">
+                    {% if p.head_image %}
+                        <img class="card-img-top" src="{{ p.head_image.url }}" alt="Card image cap">
                     {% else %}
-                    <img class="card-img-top" src ="https://pixabay.com/ko/images/search/%EA%B0%95%EC%95%84%EC%A7%80/">
+                        <img class="card-img-top" src="/media/blog/images/2023/03/28/IMG_7011_SnIslMv.jpg">
                     {% endif %}
                     <div class="card-body">
-                        <h2 class="card-title">{{ p.title}}</h2>
-                        <p class="card-text">{{ p.content | truncatewords:45 }}</p>
+                        <h2 class="card-title">{{ p.title}} ({{ p.category }})</h2>
+                        <p class="card-text">{{ p.content | truncatewords:30 }}</p>
 
                         <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
                     </div>
                     <div class="card-footer text-muted">
                         Posted on {{ p.created_at}} by
-                        <a href="#">{{ p.author }}</a>
+                        <a href="#"> {{ p.author }}</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -33,85 +38,4 @@
                         <a class="page-link" href="#">Newer &rarr;</a>
                     </li>
                 </ul>
-<<<<<<< Updated upstream
-
-            </div>
-
-            <div class="col-md-4 col-lg-3">
-                <!-- Search Widget -->
-                <div class="card my-4">
-                    <h5 class="card-header">Search</h5>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-secondary" type="button">Go!</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Categories Widget -->
-                <div class="card my-4">
-                    <h5 class="card-header">Categories</h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <ul class="list-unstyled mb-0">
-                                    {% for category in categories %}
-                                    <li>
-                                        <a href="category.get_absolute_url" >{{category.name}}</a>
-                                     </li>
-                                     <li>
-                                         <a href="{category/no-category}">미분류 ({{no_category_count}})</a>
-                                     </li>
-                                     {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="col-lg-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li>
-                                        <a href="#">JavaScript</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">CSS</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Tutorials</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">
-                Copyright &copy; Do It Django A to Z 2021
-            </p>
-        </div>
-        <!-- /.container -->
-    </footer>
-
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-
-</body>
-
-</html>
-=======
 {% endblock %}
->>>>>>> Stashed changes

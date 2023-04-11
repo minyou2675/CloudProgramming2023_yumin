@@ -34,7 +34,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) # 컬럼에 추가될 때 생김
     updated_at = models.DateTimeField(auto_now=True) # 자동추가
     
-    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE) #CASCADE()XXX 지워지게 되면 그 함수를 실행하라 CALL-BACK
+    author = models.ForeignKey(User, null=False, on_delete=models.CASCADE) #CASCADE()XXX 지워지게 되면 그 함수를 실행하라 CALL-BACK
     category = models.ForeignKey(Category,null=True, on_delete=models.SET_NULL,default=1) #카테고리가 없어지면 Post의 카테고리는 null로 default는??
 
     tag = models.ManyToManyField(Tag,null=True) #Null은 서버사이드 validation(DB 입력 기준) blank는 view에서 validation

@@ -1,10 +1,15 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import Post,Category, Tag 
 
 
 # Create your views here.
+
+class PostCreate(CreateView):
+    model = Post #PostCreate에 접근 시 post라는 하나의 인스턴스를 만들겠다.
+    fields = ['title','content','head_image','file_upload','category','tag'] # 이 7개의 값을 입력받도록 한다.
+    
 
 class PostList(ListView):
     model = Post
@@ -44,3 +49,4 @@ def tag_page(request, slug):
         'no_category_count' : Post.objects.filter(category=None).count()
     }
     return render(request,'blog/post_list.html',context)
+

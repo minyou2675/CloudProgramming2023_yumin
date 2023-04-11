@@ -63,7 +63,7 @@
         <!-- Author -->
         <p class="lead">
           by
-          <a href="#">{{ post.author }}</a>
+          <a href="#">{{ post.author}}</a>
         </p>
 
         <hr>
@@ -74,30 +74,29 @@
         <hr>
 
         <!-- Preview Image -->
-          {% if post.head_image %}
-        <img class="img-fluid rounded" src="{{ post.head_image.url }}" alt="">
-
-          {% endif %}
+        {% if post.head_image %}
+                  <img class="img-fluid rounded" src="{{ post.head_image.url}}" alt="">
+        {% endif %}
 
         <hr>
 
         <!-- Post Content -->
         <p>{{ post.content }}</p>
-      {% if post.file_upload %}
+          {% if post.file_upload %}
 
-        <a  class="btn btn-outline-primary" href="{{ post.file_upload.url }}">첨부파일 다운로드</a>
-          {{ post.get_file_name}}
-      {% endif %}
+          <a href="{{ post.file_upload.url }}" class="btn btn-outline-primary">첨부파일 다운로드</a>
+        {{ post.get_file_name }}
+
+       {% endif %}
         <hr>
         {% if post.tag.exists %}
-        
-          {% for tag in post.tag.iterator %}
-          <i class = "fas fa-tag">
-           <a href="{{ tag.get_absolute_url }}"> {{ tag }} </a>
-          </i>
-          {% endfor %}
-      
+            <i class = "fas fa-tags">
+            {% for tag in post.tag.iterator %}
+                <a href="{{ tag.get_absolute_url }}">{{ tag }} </a>
+            {% endfor %}
+            </i>
         {% endif %}
+
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
@@ -171,19 +170,28 @@
             <div class="row">
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0">
-                {% for category in categories %}
-                <li>
-                  <a href="category.get_absolute_url">{{category.name}}</a>
-                </li>
-                {% endfor %}
+                  <li>
+                    <a href="#">Web Design</a>
+                  </li>
+                  <li>
+                    <a href="#">HTML</a>
+                  </li>
+                  <li>
+                    <a href="#">Freebies</a>
+                  </li>
                 </ul>
               </div>
               <div class="col-lg-6">
                 <ul class="list-unstyled mb-0">
                   <li>
-                    <a href="blog/no-category/">미분류</a>
+                    <a href="#">JavaScript</a>
                   </li>
-            
+                  <li>
+                    <a href="#">CSS</a>
+                  </li>
+                  <li>
+                    <a href="#">Tutorials</a>
+                  </li>
                 </ul>
               </div>
             </div>
