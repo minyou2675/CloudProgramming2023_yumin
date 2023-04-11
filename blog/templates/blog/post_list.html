@@ -2,6 +2,11 @@
 
 
 {% block main_area %}
+     {% if user.is_authenticated %}
+        {% if user.is_authenticated or user.is_staff%}
+        <a href="/blog/create_post">글쓰기</a>
+        {% endif %}
+     {% endif %}
      <h1>Blog {% if category %} postings with category {{category}}
      {% endif %}
      {% if tag %} postings with tag {{tag}} {% endif %}

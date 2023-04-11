@@ -1,14 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Post,Category, Tag 
 
 
 # Create your views here.
 
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin,CreateView):
     model = Post #PostCreate에 접근 시 post라는 하나의 인스턴스를 만들겠다.
     fields = ['title','content','head_image','file_upload','category','tag'] # 이 7개의 값을 입력받도록 한다.
+    
+    def test_function(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+    
+    def form_valid(self, form): #PostCreate에서 form의 POST 메소드를 보냈을 때 실행
+        current_user = self.request.user #유저 정보를 가져옴. django의 request는 항상 사용자 항목을 가지고 있다. 
+        if current_user.is_authenticated and (self.request.user.is_staff or self.request.user.is_superuser): #로그인이 된 상태에서, user가 staff거나 superuser여야만 한다.
+            form.instance.author = current_user #현재 form에는 author 필드가 없는데, 필드를 생성하고 거기에 user를 집어넣는다.
+            return super(PostCreate, self).form_valid(form)
+        else:
+            redirect('/blog/')
+    
     
 
 class PostList(ListView):
