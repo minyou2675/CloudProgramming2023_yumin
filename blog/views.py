@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from .forms import *
 from .models import Post,Category, Tag 
 
 
@@ -47,6 +47,13 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     model = Post
+    
+    def get_context_data(self,**kwargs): #오버라이딩
+        context = super(PostDetail, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_count'] = Post.objects.filter(category=None).count()
+        context['comment_form'] = CommentForm
+        return context
 
 def categories_page(request, slug):
     if slug == 'no-category':
@@ -73,4 +80,23 @@ def tag_page(request, slug):
         'no_category_count' : Post.objects.filter(category=None).count()
     }
     return render(request,'blog/post_list.html',context)
+
+def add_comment(request, pk): #폼을 통해 post를 보내는 경우 and url을 입력하여 get으로 호출하는 경우
+    if not request.user.is_authenticated:
+        raise PermissionError
+    if request.method =='POST':
+        post = Post.objects.get(pk = pk)
+        comment_form = CommentForm(request.POST) #POST안에 들어있는 method body
+        comment_temp = comment_form.save(commit=False) #DB에 보내지 않고 COMMENT 개체를 생성
+        comment_temp.post = post
+        comment_temp.author = request.user
+        comment_temp.save() #바로 DB로 전송
+        
+        return redirect(post.get_absolute_url())
+    
+ 
+
+    else:
+        raise PermissionError
+    
 

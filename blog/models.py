@@ -53,3 +53,16 @@ class Post(models.Model):
     def get_content_markdown(self):
         return markdown(self.content) #컨텐트를 마크다운으로 변환해서 return
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True) # 컬럼에 추가될 때 생김
+    updated_at = models.DateTimeField(auto_now=True) # 자동추가
+
+    def __str__(self):
+        return f'{self.author} - {self.content}'
+    
+    def get_absolute_url(self):
+        return f'{self.post.get_absolute_url()}#comment-{self.pk}'
+    
