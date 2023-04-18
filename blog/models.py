@@ -2,6 +2,8 @@ import os.path
 
 from django.db import models
 from django.contrib.auth.models import User
+from markdown import markdown
+from markdownx.models import MarkdownxField
 
 class Tag(models.Model):
   name = models.CharField(max_length=20, unique=True) #unique=True 다른 레코드의 name 필드와 겹치면 생성안된다
@@ -26,7 +28,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=30)
-    content = models.TextField() #글자수 제한 X
+    content = MarkdownxField() #글자수 제한 X
 
     head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/',blank=True) #blank -> 필수항목 아님, upload to 경로에 이미지 저장
     file_upload = models.FileField(upload_to='blog/files/%Y/%m/%d',blank=True)
@@ -41,10 +43,13 @@ class Post(models.Model):
 
     def __str__(self): #object 이름을 table로 반환하도록 str 함수를 오버라이딩
         return f'{[self.pk]} {self.title} - {self.author}'
+    
     def get_absolute_url(self):
         return f'/blog/{self.pk}/'
+    
     def get_file_name(self):
         return os.path.basename(self.file_upload.name)
 
-
+    def get_content_markdown(self):
+        return markdown(self.content) #컨텐트를 마크다운으로 변환해서 return
 
