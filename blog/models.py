@@ -12,7 +12,8 @@ class Tag(models.Model):
   def __str__(self):
         return self.name 
   def get_absolute_url(self):
-        return f'/blog/tag/{self.slug}/'   
+        return f'/blog/tag/{self.slug}/'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=20, unique=True) #unique=True 다른 레코드의 name 필드와 겹치면 생성안된다
@@ -37,7 +38,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True) # 자동추가
     
     author = models.ForeignKey(User, null=False, on_delete=models.CASCADE) #CASCADE()XXX 지워지게 되면 그 함수를 실행하라 CALL-BACK
-    category = models.ForeignKey(Category,null=True, on_delete=models.SET_NULL,default=1) #카테고리가 없어지면 Post의 카테고리는 null로 default는??
+    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL,default=1) #카테고리가 없어지면 Post의 카테고리는 null로 default는??
 
     tag = models.ManyToManyField(Tag,null=True) #Null은 서버사이드 validation(DB 입력 기준) blank는 view에서 validation
 
